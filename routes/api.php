@@ -17,5 +17,5 @@ use App\Http\Controllers\PaymentController;
 */
 
 Route::post('/login', [AuthenticateController::class, 'login'])->name('login');
-Route::get('/userinfo', [AuthenticateController::class, 'getUserInfo'])->name('userinfo');
-Route::patch('/payment', [PaymentController::class, 'update'])->name('payment');
+// Route::get('/userinfo', [AuthenticateController::class, 'getUserInfo'])->name('userinfo');
+Route::post('/payment', [PaymentController::class, 'store'])->name('payment');

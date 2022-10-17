@@ -36,9 +36,18 @@ class PaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PaymentRequest $request)
     {
-        //
+        $account = Account::where('id', $request->id)->first();
+        $account->update([
+            'surplus' => $account->surplus - $request->amount
+        ]);
+
+        TransactionHistory::create([
+            'account_id' => $request->id,
+            'amount' => $request->amount,
+            'created_at' => now(),
+        ]);
     }
 
     /**
@@ -70,18 +79,8 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PaymentRequest $request)
+    public function update(Request $request)
     {
-        $account = Account::where('id', $request->id)->first();
-        $account->update([
-            'surplus' => $account->surplus - $request->amount
-        ]);
-
-        TransactionHistory::create([
-            'account_id' => $request->id,
-            'amount' => $request->amount,
-            'created_at' => now(),
-        ]);
     }
 
     /**

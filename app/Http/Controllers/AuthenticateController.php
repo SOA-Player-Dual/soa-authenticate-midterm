@@ -84,7 +84,8 @@ class AuthenticateController extends Controller
         //
     }
 
-    public function login(AuthenticateRequest $request){
+    public function login(AuthenticateRequest $request)
+    {
         $data = $request->all();
         $username = $data['username'];
         $password = $data['password'];
@@ -92,14 +93,19 @@ class AuthenticateController extends Controller
 
         if ($account) {
             return response()->json([
-                'id' => $account['id'],
+                'id' => $account->id,
+                'fullname' => $account['fullname'],
+                'email' => $account['email'],
+                'phone' => $account['phone'],
+                'surplus' => $account['surplus'],
             ], 200);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }
     }
 
-    public function getUserInfo(Request $request){
+    public function getUserInfo(Request $request)
+    {
         $data = $request->all();
         if ($data == null || $data['id'] == null) {
             return response()->json([
