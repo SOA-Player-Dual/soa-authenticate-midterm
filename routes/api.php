@@ -17,5 +17,6 @@ use App\Http\Controllers\PaymentController;
 */
 
 Route::post('/login', [AuthenticateController::class, 'login'])->name('login');
+Route::get('/get-email', [AuthenticateController::class, 'getEmail'])->name('getEmail');
 // Route::get('/userinfo', [AuthenticateController::class, 'getUserInfo'])->name('userinfo');
 Route::post('/payment', [PaymentController::class, 'store'])->name('payment');

@@ -39,15 +39,38 @@ class PaymentController extends Controller
     public function store(PaymentRequest $request)
     {
         $account = Account::where('id', $request->id)->first();
-        $account->update([
-            'surplus' => $account->surplus - $request->amount
-        ]);
-
-        TransactionHistory::create([
-            'account_id' => $request->id,
-            'amount' => $request->amount,
-            'created_at' => now(),
-        ]);
+        if ($account) {
+            $updateAccount = $account->update([
+                'surplus' => $account->surplus - $request->amount
+            ]);
+            if ($updateAccount) {
+                $storeTransaction = TransactionHistory::create([
+                    'account_id' => $request->id,
+                    'amount' => $request->amount,
+                    'created_at' => now(),
+                ]);
+                if ($storeTransaction) {
+                    return response()->json([
+                        'message' => 'Payment success',
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => 'Payment failed',
+                    ], 400);
+                }
+                return response()->json([
+                    'message' => 'Payment success',
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Payment failed',
+                ], 400);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Account not found',
+            ], 404);
+        }
     }
 
     /**

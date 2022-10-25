@@ -90,7 +90,6 @@ class AuthenticateController extends Controller
         $username = $data['username'];
         $password = $data['password'];
         $account = Account::where('username', $username)->where('password', md5($password))->first();
-
         if ($account) {
             return response()->json([
                 'id' => $account->id,
@@ -104,26 +103,16 @@ class AuthenticateController extends Controller
         }
     }
 
-    public function getUserInfo(Request $request)
+    public function getEmail(Request $request)
     {
         $data = $request->all();
-        if ($data == null || $data['id'] == null) {
+        $email = Account::where('id', $data['user_id'])->first();
+        if ($email) {
             return response()->json([
-                'error' => 'id is required',
-            ], 422);
-        }
-        $id = $data['id'];
-        $account = Account::where('id', $id)->first();
-
-        if ($account) {
-            return response()->json([
-                'fullname' => $account['fullname'],
-                'email' => $account['email'],
-                'phone' => $account['phone'],
-                'surplus' => $account['surplus'],
+                'email' => $email['email'],
             ], 200);
         } else {
-            return response()->json(['error' => 'Not found user have this id'], 404);
+            return response()->json(['error' => 'Can\'t find email of this account'], 401);
         }
     }
 }
