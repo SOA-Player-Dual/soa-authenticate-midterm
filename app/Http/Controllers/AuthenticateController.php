@@ -99,7 +99,7 @@ class AuthenticateController extends Controller
                 'surplus' => $account['surplus'],
             ], 200);
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return response()->json(['error' => 'Username or password is incorrect'], 401);
         }
     }
 
@@ -113,6 +113,18 @@ class AuthenticateController extends Controller
             ], 200);
         } else {
             return response()->json(['error' => 'Can\'t find email of this account'], 401);
+        }
+    }
+
+    public function getAllUser()
+    {
+        $users = Account::all();
+        if ($users) {
+            return response()->json([
+                'users' => $users,
+            ], 200);
+        } else {
+            return response()->json(['error' => 'Can\'t find any user'], 401);
         }
     }
 }
