@@ -17,7 +17,7 @@ use App\Http\Controllers\PaymentController;
 */
 
 Route::post('/login', [AuthenticateController::class, 'login'])->middleware('cors')->name('login');
-Route::get('/get-email', [AuthenticateController::class, 'getEmail'])->name('getEmail');
-Route::get('/get-all', [AuthenticateController::class, 'getAllUser'])->name('getAllUser');
+Route::get('/get-user', [AuthenticateController::class, 'getUser'])->name('getUser');
+Route::get('/get-surplus', [AuthenticateController::class, 'getSurplus']);
 // Route::get('/userinfo', [AuthenticateController::class, 'getUserInfo'])->name('userinfo');
 Route::post('/payment', [PaymentController::class, 'store'])->name('payment');

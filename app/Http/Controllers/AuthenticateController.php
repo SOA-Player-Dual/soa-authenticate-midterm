@@ -103,28 +103,30 @@ class AuthenticateController extends Controller
         }
     }
 
-    public function getEmail(Request $request)
+    public function getUser(Request $request)
     {
         $data = $request->all();
         $email = Account::where('id', $data['user_id'])->first();
         if ($email) {
             return response()->json([
                 'email' => $email['email'],
+                'fullname' => $email['fullname'],
             ], 200);
         } else {
-            return response()->json(['error' => 'Can\'t find email of this account'], 401);
+            return response()->json(['error' => 'Can\'t find information of this account'], 401);
         }
     }
 
-    public function getAllUser()
+    public function getSurplus(Request $request)
     {
-        $users = Account::all();
-        if ($users) {
+        $data = $request->all();
+        $email = Account::where('id', $data['user_id'])->first();
+        if ($email) {
             return response()->json([
-                'users' => $users,
+                'surplus' => $email['surplus'],
             ], 200);
         } else {
-            return response()->json(['error' => 'Can\'t find any user'], 401);
+            return response()->json(['error' => 'Can\'t find surplus of this account'], 404);
         }
     }
 }
