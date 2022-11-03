@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TransactionHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,6 @@ Route::get('/get-user', [AuthenticateController::class, 'getUser'])->name('getUs
 Route::get('/get-surplus', [AuthenticateController::class, 'getSurplus']);
 // Route::get('/userinfo', [AuthenticateController::class, 'getUserInfo'])->name('userinfo');
 Route::post('/payment', [PaymentController::class, 'store'])->name('payment');
+
+//get all transaction history
+Route::get('/transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history');

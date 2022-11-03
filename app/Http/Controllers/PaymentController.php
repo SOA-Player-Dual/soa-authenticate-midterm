@@ -44,8 +44,10 @@ class PaymentController extends Controller
                 'surplus' => $account->surplus - $request->amount
             ]);
             if ($updateAccount) {
+                $contentPayment = 'Tuition payment for ' . $request->student_id;
                 $storeTransaction = TransactionHistory::create([
                     'account_id' => $request->id,
+                    'content' => $contentPayment,
                     'amount' => $request->amount,
                     'created_at' => now(),
                 ]);
