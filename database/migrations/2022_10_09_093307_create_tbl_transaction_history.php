@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('account_id');
             $table->foreign('account_id')->references('id')->on('tbl_account');
+            $table->string('content');
             $table->integer('amount');
             $table->timestamps();
         });

@@ -14,6 +14,7 @@ class TransactionHistory extends Model
     protected $fillable = [
         'account_id',
         'amount',
+        'content',
         'created_at',
         'updated_at',
     ];

@@ -7,6 +7,8 @@ use App\Models\Account;
 use App\Models\TransactionHistory;
 
 use App\Http\Requests\PaymentRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentSuccessMail;
 
 class PaymentController extends Controller
 {
@@ -52,9 +54,20 @@ class PaymentController extends Controller
                     'created_at' => now(),
                 ]);
                 if ($storeTransaction) {
-                    return response()->json([
-                        'message' => 'Payment success',
-                    ], 200);
+                    $sent = Mail::to($account['email'])->send(new PaymentSuccessMail([
+                        'student_name' => $request->student_name,
+                        'student_id' => $request->student_id,
+                        'tuition_fee' => $request->amount,
+                    ]));
+                    if ($sent) {
+                        return response()->json([
+                            'message' => 'Payment success',
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'message' => 'Payment success but email not sent',
+                        ], 200);
+                    }
                 } else {
                     return response()->json([
                         'message' => 'Payment failed',
